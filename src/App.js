@@ -1,27 +1,25 @@
 import React from 'react';
+import {Router, Route, Link, browserHistory} from 'react-router'
 
-class App extends React.Component{
-  render(){
-    return(
-      <Parent>
-        <div className="sample1"></div>
-        <div className="sample2"></div>
-      </Parent>
-    )
-  }
-}
+const Home = () => <div><h1>Home</h1><Links/></div>
+const AboutUs = () => <div><h1>AboutUs</h1><Links/></div>
+const ContactUs = () => <div><h1>ContactUs</h1><Links/></div>
 
-class Parent extends React.Component{
-  render(){
-    // console.log('actual child',this.props.children)
-    // let items = this.props.children.map(child=>child)
-    // let items = React.Children.map(this.props.children,child=>child)
-    // let items = React.Children.toArray(this.props.children)
-    let items = React.Children.forEach(this.props.children,child=>console.log(child.props.className))
-    // let items = React.Children.only(this.props.children)
-    console.log('mapped child',items)
-    return null
-  }
+const Links = () =>
+  <nav>
+    <Link to="/Home">Home</Link>
+    <Link to="/AboutUs">AboutUs</Link>
+    <Link to="/ContactUs">ContactUs</Link>
+  </nav>
+
+const App = () => {
+  return(
+    <Router history={ browserHistory }>
+      <Route path="/Home" component={Home}></Route>
+      <Route path="/AboutUs" component={AboutUs}></Route>
+      <Route path="/ContactUs" component={ContactUs}></Route>
+    </Router>
+  )
 }
 
 export default App;
