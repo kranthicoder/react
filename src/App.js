@@ -1,25 +1,42 @@
-import React from 'react';
-import {Router, Route, Link, browserHistory} from 'react-router'
+import React, { Component } from 'react';
 
-const Home = () => <div><h1>Home</h1><Links/></div>
-const AboutUs = () => <div><h1>AboutUs</h1><Links/></div>
-const ContactUs = () => <div><h1>ContactUs</h1><Links/></div>
-
-const Links = () =>
-  <nav>
-    <Link to="/Home">Home</Link>
-    <Link to="/AboutUs">AboutUs</Link>
-    <Link to="/ContactUs">ContactUs</Link>
-  </nav>
-
-const App = () => {
-  return(
-    <Router history={ browserHistory }>
-      <Route path="/Home" component={Home}></Route>
-      <Route path="/AboutUs" component={AboutUs}></Route>
-      <Route path="/ContactUs" component={ContactUs}></Route>
-    </Router>
-  )
+class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      items : []
+    }
+  }
+  filter(e){
+    this.setState({filter:e.target.value})
+  }
+  componentWillMount(){
+    fetch('https://swapi.co/api/people/?format=json').then(response => response.json())
+    .then(({results:items})=>this.setState({items}))
+  }
+  render() {
+    let items = this.state.items
+    if(this.state.filter){
+      items = items.filter(item=>item.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+    }
+    return (
+        <div>
+        <input type="text" onChange={this.filter.bind(this)}/>
+           <h1> Films </h1>
+           {items.map(item=><Films update={item}/>)}
+           <h1> Vehicles </h1>
+           {items.map(item=><Vehicles update={item}/>)}
+           <h1> Starships </h1>
+           {items.map(item=><Starships update={item}/>)}
+        </div>
+    )
+  }
 }
+
+const Films = (prop) =><h4>{prop.update.films}</h4>
+
+const Vehicles = (prop) =><h4>{prop.update.vehicles}</h4>
+
+const Starships = (prop) =><h4>{prop.update.starships}</h4>
 
 export default App;
