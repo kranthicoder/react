@@ -1,29 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class App extends Component {
- 
-  render() {
-    
-    return (
-        <div>
-          <Header />
-          <Body />
-          <Button />
-          <Footer />           
-        </div>
+class App extends React.Component{
+  render(){
+    return(
+      <Parent>
+        <div className="sample1"></div>
+        <div className="sample2"></div>
+      </Parent>
     )
   }
 }
 
-const Header = () => <h1> This is header </h1>
-
-const Body = () => <p> This is body </p>
-
-const Footer = () => <span> This is footer </span>
-
-class Button extends Component{
-  render() {
-    return <button> Submit </button>
+class Parent extends React.Component{
+  render(){
+    // console.log('actual child',this.props.children)
+    // let items = this.props.children.map(child=>child)
+    // let items = React.Children.map(this.props.children,child=>child)
+    // let items = React.Children.toArray(this.props.children)
+    let items = React.Children.forEach(this.props.children,child=>console.log(child.props.className))
+    // let items = React.Children.only(this.props.children)
+    console.log('mapped child',items)
+    return null
   }
 }
 
